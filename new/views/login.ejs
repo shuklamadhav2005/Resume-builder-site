@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Resume Builder - Login</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <link rel="stylesheet" href="/style.css" />
+  <style>
+    /* Simple Login Page Styles */
+    .login-page {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
+      padding: 20px;
+    }
+
+    .theme-toggle-simple {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: var(--bg-primary);
+      border: 2px solid var(--border-color);
+      border-radius: 50%;
+      width: 45px;
+      height: 45px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 20px;
+      color: var(--text-primary);
+      transition: all 0.3s;
+      z-index: 100;
+      box-shadow: 0 2px 10px var(--shadow-color);
+    }
+
+    .theme-toggle-simple:hover {
+      transform: scale(1.1);
+      box-shadow: 0 4px 15px var(--shadow-color);
+    }
+
+    .login-container {
+      background: var(--bg-primary);
+      border-radius: 12px;
+      box-shadow: 0 8px 32px var(--shadow-color);
+      padding: 40px;
+      width: 100%;
+      max-width: 400px;
+      border: 1px solid var(--border-color);
+    }
+
+    .login-header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .login-header-icon {
+      font-size: 48px;
+      color: var(--primary-color);
+      margin-bottom: 15px;
+      display: block;
+    }
+
+    .login-header h1 {
+      font-size: 28px;
+      font-weight: 700;
+      margin: 0;
+      color: var(--text-primary);
+    }
+
+    .login-header p {
+      font-size: 14px;
+      color: var(--text-secondary);
+      margin: 8px 0 0 0;
+    }
+
+    .login-form {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .form-group label {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    .form-group input {
+      padding: 12px 14px;
+      border: 2px solid var(--border-color);
+      border-radius: 8px;
+      font-size: 15px;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      transition: all 0.3s;
+      outline: none;
+    }
+
+    .form-group input:focus {
+      border-color: var(--primary-color);
+      box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+    }
+
+    .form-group input::placeholder {
+      color: var(--text-secondary);
+    }
+
+    .password-field {
+      position: relative;
+    }
+
+    .password-field label {
+      display: block;
+    }
+
+    .password-field input {
+      padding-right: 44px;
+    }
+
+    .toggle-password-btn {
+      position: absolute;
+      right: 10px;
+      top: 36px;
+      height: 36px;
+      width: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: transparent;
+      border: none;
+      color: var(--text-secondary);
+      font-size: 16px;
+      cursor: pointer;
+      padding: 0;
+    }
+
+    .toggle-password-btn:hover {
+      color: var(--primary-color);
+    }
+
+    .toggle-password-btn:focus {
+       outline: none; 
+       outline-offset: 2px;
+      border-radius: 6px;
+    } 
+
+    .form-options {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+    }
+
+    .forgot-password-link {
+      font-size: 14px;
+      color: var(--primary-color);
+      text-decoration: none;
+      transition: all 0.3s;
+      font-weight: 600;
+    }
+
+    .forgot-password-link:hover {
+      color: var(--primary-dark);
+      text-decoration: underline;
+    }
+
+    .login-button {
+      padding: 12px 16px;
+      background: var(--primary-color);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+      box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+    }
+
+    .login-button:hover {
+      background: var(--primary-dark);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(99, 102, 241, 0.4);
+    }
+
+    .login-button:active {
+      transform: translateY(0);
+    }
+
+    .forgot-password-container {
+      display: none;
+    }
+
+    .forgot-password-panel {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .reset-step {
+      display: none;
+      flex-direction: column;
+      gap: 20px;
+      padding-top: 4px;
+      border-top: 1px solid var(--border-color);
+    }
+
+    .reset-step.active {
+      display: flex;
+    }
+
+    .password-reset-fields {
+      display: none;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .password-reset-fields.active {
+      display: flex;
+    }
+
+    .password-modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.55);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      z-index: 1200;
+      backdrop-filter: blur(2px);
+    }
+
+    .password-modal-overlay.active {
+      display: flex;
+    }
+
+    .password-modal {
+      width: 100%;
+      max-width: 460px;
+      background: var(--bg-primary);
+      border: 1px solid var(--border-color);
+      border-radius: 14px;
+      box-shadow: 0 12px 32px var(--shadow-color);
+      padding: 24px;
+    }
+
+    .password-modal-header {
+      margin-bottom: 16px;
+      text-align: center;
+    }
+
+    .password-modal-header h3 {
+      margin: 0;
+      font-size: 24px;
+      color: var(--text-primary);
+    }
+
+    .password-modal-header p {
+      margin: 8px 0 0;
+      font-size: 14px;
+      color: var(--text-secondary);
+    }
+
+    .helper-text {
+      margin: -4px 0 0;
+      font-size: 13px;
+      line-height: 1.5;
+      color: var(--text-secondary);
+    }
+
+    .panel-actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .secondary-button {
+      padding: 12px 16px;
+      background: transparent;
+      color: var(--primary-color);
+      border: 2px solid var(--border-color);
+      border-radius: 8px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .secondary-button:hover {
+      border-color: var(--primary-color);
+      background: rgba(99, 102, 241, 0.08);
+    }
+
+    .back-link-button {
+      padding: 0;
+      border: none;
+      background: transparent;
+      color: var(--primary-color);
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+
+    .back-link-button:hover {
+      color: var(--primary-dark);
+    }
+
+
+    .login-divider {
+      text-align: center;
+      color: var(--text-secondary);
+      font-size: 14px;
+      margin: 5px 0;
+    }
+
+    .signup-section {
+      text-align: center;
+      padding-top: 20px;
+      border-top: 1px solid var(--border-color);
+    }
+
+    .signup-section p {
+      margin: 0;
+      font-size: 14px;
+      color: var(--text-secondary);
+    }
+
+    .signup-link {
+      color: var(--primary-color);
+      text-decoration: none;
+      font-weight: 600;
+      transition: all 0.3s;
+    }
+
+    .signup-link:hover {
+      color: var(--primary-dark);
+      text-decoration: underline;
+    }
+
+    .error-message {
+      color: var(--danger);
+      font-size: 13px;
+      padding: 10px;
+      background: rgba(239, 68, 68, 0.1);
+      border: 1px solid var(--danger);
+      border-radius: 6px;
+      display: none;
+      margin-bottom: 10px;
+    }
+
+    .error-message.show {
+      display: block;
+    }
+
+    .success-message {
+      color: var(--success);
+      font-size: 13px;
+      padding: 10px;
+      background: rgba(16, 185, 129, 0.1);
+      border: 1px solid var(--success);
+      border-radius: 6px;
+      display: none;
+      margin-bottom: 10px;
+    }
+
+    .success-message.show {
+      display: block;
+    }
+
+    .loading {
+      opacity: 0.6;
+      pointer-events: none;
+    }
+
+    .spinner {
+      display: inline-block;
+      width: 16px;
+      height: 16px;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      border-radius: 50%;
+      border-top-color: white;
+      animation: spin 0.8s linear infinite;
+      margin-right: 8px;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    @media (max-width: 480px) {
+      .login-container {
+        padding: 30px 20px;
+        max-width: 100%;
+      }
+
+      .login-header h1 {
+        font-size: 24px;
+      }
+
+      .login-header-icon {
+        font-size: 40px;
+      }
+
+      .theme-toggle-simple {
+        width: 40px;
+        height: 40px;
+        font-size: 18px;
+      }
+    }
+  </style>
+</head>
+<body class="login-page">
+  <!-- Theme Toggle -->
+  <button class="theme-toggle-simple" id="themeToggle" title="Toggle dark mode">
+    <i class="fas fa-moon"></i>
+  </button>
+
+  <!-- Login Container -->
+  <div class="login-container" id="loginContainer">
+    <!-- Header -->
+    <div class="login-header">
+      <i class="fas fa-file-alt login-header-icon"></i>
+      <h1>Resume Builder</h1>
+      <p>Sign in to your account</p>
+    </div>
+
+    <!-- Messages -->
+    <div class="error-message" id="errorMessage"></div>
+    <div class="success-message" id="successMessage"></div>
+
+    <!-- Login Form -->
+    <form class="login-form" id="loginForm">
+      <div class="form-group">
+        <label for="email">Email Address</label>
+        <input
+          type="email"
+          id="email"
+          placeholder="Enter your email"
+          required
+        />
+      </div>
+
+      <div class="form-group password-field">
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+          <label for="password">Password</label>
+        </div>
+        <input
+          type="password"
+          id="password"
+          placeholder="Enter your password"
+          required
+        />
+        <button
+          type="button"
+          class="toggle-password-btn"
+          data-target="password"
+          aria-label="Show password"
+          title="Show password"
+        >
+          <i class="fas fa-eye"></i>
+        </button>
+      </div>
+
+      <div class="form-options">
+        <a href="#" class="forgot-password-link" id="forgotPasswordLink">Forgot password?</a>
+      </div>
+
+      <button type="submit" class="login-button" id="loginBtn">
+        Sign In
+      </button>
+    </form>
+
+    <!-- Sign Up Section -->
+    <div class="signup-section">
+      <p>Don't have an account? <a href="#" class="signup-link" id="signupLink">Sign up</a></p>
+    </div>
+  </div>
+
+  <!-- Hidden Sign Up Form -->
+  <div class="login-container" id="signupContainer" style="display: none;">
+    <!-- Header -->
+    <div class="login-header">
+      <i class="fas fa-file-alt login-header-icon"></i>
+      <h1>Create Account</h1>
+      <p>Join Resume Builder today</p>
+    </div>
+
+    <!-- Messages -->
+    <div class="error-message" id="signupErrorMessage"></div>
+    <div class="success-message" id="signupSuccessMessage"></div>
+
+    <!-- Sign Up Form -->
+    <form class="login-form" id="signupForm">
+      <div class="form-group">
+        <label for="fullname">Full Name</label>
+        <input
+          type="text"
+          id="fullname"
+          placeholder="Enter your full name"
+          required
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="signup-email">Email Address</label>
+        <input
+          type="email"
+          id="signup-email"
+          placeholder="Enter your email"
+          required
+        />
+      </div>
+
+      <div class="form-group password-field">
+        <label for="signup-password">Password</label>
+        <input
+          type="password"
+          id="signup-password"
+          placeholder="At least 8 characters"
+          required
+          minlength="8"
+        />
+        <button
+          type="button"
+          class="toggle-password-btn"
+          data-target="signup-password"
+          aria-label="Show password"
+          title="Show password"
+        >
+          <i class="fas fa-eye"></i>
+        </button>
+      </div>
+
+      <div class="form-group password-field">
+        <label for="confirm-password">Confirm Password</label>
+        <input
+          type="password"
+          id="confirm-password"
+          placeholder="Confirm your password"
+          required
+        />
+        <button
+          type="button"
+          class="toggle-password-btn"
+          data-target="confirm-password"
+          aria-label="Show password"
+          title="Show password"
+        >
+          <i class="fas fa-eye"></i>
+        </button>
+      </div>
+
+      <button type="submit" class="login-button" id="signupBtn">
+        Create Account
+      </button>
+    </form>
+
+    <!-- Back to Login Section -->
+    <div class="signup-section">
+      <p>Already have an account? <a href="#" class="signup-link" id="backToLoginLink">Sign in</a></p>
+    </div>
+  </div>
+
+  <!-- Forgot Password Container -->
+  <div class="login-container forgot-password-container" id="forgotPasswordContainer">
+    <div class="login-header">
+      <i class="fas fa-shield-halved login-header-icon"></i>
+      <h1>Reset Password</h1>
+      <p>Request an OTP and set a new password</p>
+    </div>
+
+    <form class="forgot-password-panel" id="forgotRequestForm">
+      <div class="form-group">
+        <label for="forgot-email">Email Address</label>
+        <input
+          type="email"
+          id="forgot-email"
+          placeholder="Enter the account email"
+          required
+        />
+      </div>
+
+      <p class="helper-text">We will send a one-time password to this email address.</p>
+
+      <div class="panel-actions">
+        <button type="submit" class="login-button" id="sendOtpBtn">Send OTP</button>
+        <button type="button" class="secondary-button" id="forgotCancelBtn">Back to login</button>
+      </div>
+    </form>
+
+    <form class="forgot-password-panel reset-step" id="resetPasswordForm">
+      <div class="form-group">
+        <label for="reset-otp">OTP</label>
+        <input
+          type="text"
+          id="reset-otp"
+          placeholder="Enter the 6-digit OTP"
+          inputmode="numeric"
+          maxlength="6"
+          autocomplete="one-time-code"
+          required
+        />
+      </div>
+
+      <div class="panel-actions">
+        <button type="button" class="login-button" id="verifyOtpBtn">Verify OTP</button>
+        <button type="button" class="secondary-button" id="resendOtpBtn">Resend OTP</button>
+      </div>
+      <p class="helper-text">After OTP verification, password fields will open in a popup window.</p>
+    </form>
+
+    <div class="signup-section">
+      <p><button type="button" class="back-link-button" id="forgotBackToLoginLink">Back to sign in</button></p>
+    </div>
+  </div>
+
+  <div class="password-modal-overlay" id="passwordModalOverlay" aria-hidden="true">
+    <div class="password-modal">
+      <div class="password-modal-header">
+        <h3>Set New Password</h3>
+        <p>OTP verified. Enter and confirm your new password.</p>
+      </div>
+
+      <form class="forgot-password-panel" id="passwordModalForm">
+        <div class="form-group password-field">
+          <label for="modal-new-password">New Password</label>
+          <input
+            type="password"
+            id="modal-new-password"
+            placeholder="Create a new password"
+            required
+          />
+          <button type="button" class="toggle-password-btn" data-target="modal-new-password" aria-label="Show password" title="Show password">
+            <i class="fas fa-eye"></i>
+          </button>
+        </div>
+
+        <div class="form-group password-field">
+          <label for="modal-confirm-password">Confirm New Password</label>
+          <input
+            type="password"
+            id="modal-confirm-password"
+            placeholder="Confirm the new password"
+            required
+          />
+          <button type="button" class="toggle-password-btn" data-target="modal-confirm-password" aria-label="Show password" title="Show password">
+            <i class="fas fa-eye"></i>
+          </button>
+        </div>
+
+        <div class="panel-actions">
+          <button type="submit" class="login-button" id="modalResetPasswordBtn">Reset Password</button>
+          <button type="button" class="secondary-button" id="modalCancelBtn">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="/toast.js"></script>
+  <script src="/login.js"></script>
+  <script>
+    // Simple Login Page JS
+    const loginContainer = document.getElementById('loginContainer');
+    const signupContainer = document.getElementById('signupContainer');
+    const forgotPasswordContainer = document.getElementById('forgotPasswordContainer');
+    const signupLink = document.getElementById('signupLink');
+    const backToLoginLink = document.getElementById('backToLoginLink');
+    const forgotPasswordLink = document.getElementById('forgotPasswordLink');
+    const forgotCancelBtn = document.getElementById('forgotCancelBtn');
+    const forgotBackToLoginLink = document.getElementById('forgotBackToLoginLink');
+    const themeToggle = document.getElementById('themeToggle');
+    const htmlElement = document.documentElement;
+
+    function showLoginView() {
+      loginContainer.style.display = 'block';
+      signupContainer.style.display = 'none';
+      forgotPasswordContainer.style.display = 'none';
+    }
+
+    function showSignupView() {
+      loginContainer.style.display = 'none';
+      signupContainer.style.display = 'block';
+      forgotPasswordContainer.style.display = 'none';
+    }
+
+    function showForgotView() {
+      loginContainer.style.display = 'none';
+      signupContainer.style.display = 'none';
+      forgotPasswordContainer.style.display = 'block';
+    }
+
+    // Sign Up / Login Toggle
+    signupLink.addEventListener('click', (e) => {
+      e.preventDefault();
+      showSignupView();
+    });
+
+    backToLoginLink.addEventListener('click', (e) => {
+      e.preventDefault();
+      showLoginView();
+    });
+
+    forgotPasswordLink.addEventListener('click', (e) => {
+      e.preventDefault();
+      const loginEmail = document.getElementById('email');
+      const forgotEmail = document.getElementById('forgot-email');
+      if (loginEmail && forgotEmail) {
+        forgotEmail.value = loginEmail.value.trim();
+      }
+      showForgotView();
+    });
+
+    forgotCancelBtn.addEventListener('click', () => {
+      showLoginView();
+    });
+
+    forgotBackToLoginLink.addEventListener('click', () => {
+      showLoginView();
+    });
+
+    // Theme Toggle
+    const savedTheme = localStorage.getItem('theme') || 'light';
+    if (savedTheme === 'dark') {
+      htmlElement.classList.add('dark-mode');
+      themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+    }
+
+    themeToggle.addEventListener('click', () => {
+      htmlElement.classList.toggle('dark-mode');
+      const isDarkMode = htmlElement.classList.contains('dark-mode');
+      localStorage.setItem('theme', isDarkMode ? 'dark' : 'light');
+      themeToggle.innerHTML = isDarkMode ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
+    });
+
+    // Toggle password visibility
+    document.querySelectorAll('.toggle-password-btn').forEach((button) => {
+      button.addEventListener('click', () => {
+        const targetId = button.getAttribute('data-target');
+        const input = document.getElementById(targetId);
+        if (!input) {
+          return;
+        }
+
+        const isPassword = input.type === 'password';
+        input.type = isPassword ? 'text' : 'password';
+
+        const icon = button.querySelector('i');
+        if (icon) {
+          icon.classList.toggle('fa-eye', !isPassword);
+          icon.classList.toggle('fa-eye-slash', isPassword);
+        }
+
+        button.setAttribute('aria-label', isPassword ? 'Hide password' : 'Show password');
+        button.setAttribute('title', isPassword ? 'Hide password' : 'Show password');
+      });
+    });
+  </script>
+</body>
+</html>

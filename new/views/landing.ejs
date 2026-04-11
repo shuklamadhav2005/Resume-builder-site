@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Resume Builder - Create Your Professional Resume</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <link rel="stylesheet" href="/style.css" />
+  <style>
+    /* Landing Page Specific Styles */
+    html,
+    body {
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
+
+    html::-webkit-scrollbar,
+    body::-webkit-scrollbar {
+      width: 0;
+      height: 0;
+      display: none;
+    }
+
+    .landing-page {
+      background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
+      min-height: 100vh;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+      overflow-y: auto;
+    }
+
+    .landing-page::-webkit-scrollbar {
+      width: 0;
+      height: 0;
+      display: none;
+    }
+
+    .landing-navbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      background: rgba(255, 255, 255, 0.95);
+      box-shadow: 0 2px 20px var(--shadow-color);
+      padding: 16px 32px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 1000;
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .dark-mode .landing-navbar {
+      background: rgba(30, 41, 59, 0.95);
+    }
+
+    .nav-brand-landing {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: transform 0.3s;
+    }
+
+    .nav-brand-landing:hover {
+      transform: scale(1.02);
+    }
+
+    .nav-brand-landing i {
+      font-size: 28px;
+      color: var(--primary-color);
+    }
+
+    .nav-brand-landing h1 {
+      margin: 0;
+      font-size: 22px;
+      color: var(--text-primary);
+    }
+
+    .nav-buttons-landing {
+      display: flex;
+      gap: 16px;
+      align-items: center;
+    }
+
+    .theme-toggle-navbar {
+      background: none;
+      border: none;
+      font-size: 20px;
+      color: var(--text-primary);
+      cursor: pointer;
+      transition: transform 0.3s;
+    }
+
+    .theme-toggle-navbar:hover {
+      transform: rotate(20deg);
+    }
+
+    .btn-login-nav {
+      padding: 10px 20px;
+      background: var(--primary-color);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 600;
+      transition: all 0.3s;
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    .btn-login-nav:hover {
+      background: var(--primary-dark);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+    }
+
+    .btn-templates-nav {
+      padding: 10px 16px;
+      background: transparent;
+      color: var(--text-primary);
+      border: 2px solid var(--border-color);
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 600;
+      transition: all 0.3s;
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    .btn-templates-nav:hover {
+      border-color: var(--primary-color);
+      color: var(--primary-color);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 102, 204, 0.18);
+    }
+
+    .hero-section {
+      margin-top: 80px;
+      padding: 60px 32px;
+      text-align: center;
+      min-height: calc(100vh - 80px);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+      isolation: isolate;
+    }
+
+    .hero-background {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .hero-background::before,
+    .hero-background::after {
+      content: '';
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(18px);
+      opacity: 0.28;
+      animation: floatBg 10s ease-in-out infinite;
+    }
+
+    .hero-background::before {
+      width: 320px;
+      height: 320px;
+      top: 40px;
+      left: -120px;
+      background: radial-gradient(circle, rgba(0, 119, 204, 0.35) 0%, rgba(0, 119, 204, 0.05) 70%, transparent 100%);
+    }
+
+    .hero-background::after {
+      width: 260px;
+      height: 260px;
+      right: -80px;
+      bottom: 120px;
+      background: radial-gradient(circle, rgba(59, 130, 246, 0.28) 0%, rgba(59, 130, 246, 0.05) 70%, transparent 100%);
+      animation-delay: -3s;
+    }
+
+    .hero-grid {
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(148, 163, 184, 0.12) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(148, 163, 184, 0.12) 1px, transparent 1px);
+      background-size: 72px 72px;
+      opacity: 0.55;
+      mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.35), transparent 80%);
+    }
+
+    .hero-orb {
+      position: absolute;
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.9;
+      mix-blend-mode: screen;
+    }
+
+    .hero-orb.orb-one {
+      width: 90px;
+      height: 90px;
+      top: 110px;
+      right: 18%;
+      background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.95), rgba(125, 211, 252, 0.35) 45%, rgba(37, 99, 235, 0.08) 75%, transparent 100%);
+      animation: floatOrb 8s ease-in-out infinite;
+    }
+
+    .hero-orb.orb-two {
+      width: 56px;
+      height: 56px;
+      bottom: 120px;
+      left: 18%;
+      background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.95), rgba(191, 219, 254, 0.35) 45%, rgba(59, 130, 246, 0.08) 75%, transparent 100%);
+      animation: floatOrb 7s ease-in-out infinite reverse;
+    }
+
+    .hero-content h1 {
+      font-size: 48px;
+      font-weight: 700;
+      margin: 0 0 20px 0;
+      color: var(--text-primary);
+      line-height: 1.2;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-content p {
+      font-size: 20px;
+      color: var(--text-secondary);
+      margin: 0 0 40px 0;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+      line-height: 1.6;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-buttons {
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 60px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .btn-primary-landing {
+      padding: 15px 40px;
+      background: var(--primary-color);
+      color: white;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: 600;
+      transition: all 0.3s;
+      text-decoration: none;
+      display: inline-block;
+      box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
+    }
+
+    .btn-primary-landing:hover {
+      background: var(--primary-dark);
+      transform: translateY(-4px);
+      box-shadow: 0 6px 20px rgba(99, 102, 241, 0.4);
+    }
+
+    .btn-secondary-landing {
+      padding: 15px 40px;
+      background: transparent;
+      color: var(--primary-color);
+      border: 2px solid var(--primary-color);
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: 600;
+      transition: all 0.3s;
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    .btn-secondary-landing:hover {
+      background: var(--primary-color);
+      color: white;
+      transform: translateY(-4px);
+    }
+
+    .hero-image {
+      margin-top: 40px;
+      font-size: 100px;
+      color: var(--primary-color);
+      animation: float 3s ease-in-out infinite;
+      position: relative;
+      z-index: 1;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-20px); }
+    }
+
+    @keyframes floatBg {
+      0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+      50% { transform: translate3d(0, -18px, 0) scale(1.05); }
+    }
+
+    @keyframes floatOrb {
+      0%, 100% { transform: translateY(0) translateX(0); }
+      50% { transform: translateY(-16px) translateX(10px); }
+    }
+
+    .features-section {
+      padding: 80px 32px;
+      background: var(--bg-primary);
+      border-top: 1px solid var(--border-color);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .features-section::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at top center, rgba(0, 119, 204, 0.05), transparent 55%);
+      pointer-events: none;
+    }
+
+    .features-title {
+      text-align: center;
+      font-size: 36px;
+      font-weight: 700;
+      margin-bottom: 60px;
+      color: var(--text-primary);
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 30px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .feature-card {
+      padding: 30px;
+      background: var(--bg-secondary);
+      border-radius: 12px;
+      border: 1px solid var(--border-color);
+      text-align: center;
+      transition: all 0.3s;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 8px 24px var(--shadow-color);
+      border-color: var(--primary-color);
+    }
+
+    .feature-icon {
+      font-size: 40px;
+      color: var(--primary-color);
+      margin-bottom: 20px;
+    }
+
+    .feature-card h3 {
+      font-size: 20px;
+      font-weight: 600;
+      margin: 0 0 15px 0;
+      color: var(--text-primary);
+    }
+
+    .feature-card p {
+      font-size: 14px;
+      color: var(--text-secondary);
+      line-height: 1.6;
+      margin: 0;
+    }
+
+    .cta-section {
+      padding: 80px 32px;
+      text-align: center;
+      background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+      color: white;
+    }
+
+    .cta-section h2 {
+      font-size: 32px;
+      font-weight: 700;
+      margin: 0 0 20px 0;
+    }
+
+    .cta-section p {
+      font-size: 18px;
+      margin: 0 0 30px 0;
+      opacity: 0.95;
+    }
+
+    .btn-cta {
+      padding: 15px 40px;
+      background: white;
+      color: var(--primary-color);
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: 600;
+      transition: all 0.3s;
+      text-decoration: none;
+      display: inline-block;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .btn-cta:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+    }
+
+    .footer-landing {
+      padding: 40px 32px;
+      text-align: center;
+      border-top: 1px solid var(--border-color);
+      background: var(--bg-primary);
+      color: var(--text-secondary);
+    }
+
+    .footer-landing p {
+      margin: 0;
+      font-size: 14px;
+    }
+
+    .social-links-footer {
+      margin-top: 20px;
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+    }
+
+    .social-links-footer a {
+      color: var(--primary-color);
+      text-decoration: none;
+      font-size: 18px;
+      transition: transform 0.3s;
+    }
+
+    .social-links-footer a:hover {
+      transform: scale(1.2);
+    }
+
+    @media (max-width: 768px) {
+      .hero-content h1 {
+        font-size: 32px;
+      }
+
+      .hero-content p {
+        font-size: 16px;
+      }
+
+      .hero-buttons {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .btn-primary-landing, .btn-secondary-landing {
+        width: 100%;
+        max-width: 300px;
+      }
+
+      .features-title {
+        font-size: 28px;
+      }
+
+      .cta-section h2 {
+        font-size: 24px;
+      }
+
+      .landing-navbar {
+        padding: 12px 16px;
+      }
+
+      .nav-brand-landing h1 {
+        font-size: 18px;
+      }
+
+      .hero-section {
+        padding: 48px 20px;
+      }
+
+      .hero-grid {
+        background-size: 56px 56px;
+      }
+
+      .hero-orb.orb-one {
+        width: 64px;
+        height: 64px;
+        right: 8%;
+        top: 90px;
+      }
+
+      .hero-orb.orb-two {
+        width: 44px;
+        height: 44px;
+        left: 8%;
+        bottom: 110px;
+      }
+    }
+  </style>
+</head>
+<body class="landing-page">
+  <!-- Navigation -->
+  <div class="landing-navbar">
+    <a href="/" class="nav-brand-landing">
+      <i class="fas fa-file-alt"></i>
+      <h1>Resume Builder</h1>
+    </a>
+    <div class="nav-buttons-landing">
+      <button class="theme-toggle-navbar" id="themeToggleNav" title="Toggle theme">
+        <i class="fas fa-moon"></i>
+      </button>
+      <a href="/templates" class="btn-templates-nav">Templates</a>
+      <a href="/login" class="btn-login-nav">Sign In</a>
+    </div>
+  </div>
+
+  <!-- Hero Section -->
+  <section class="hero-section">
+    <div class="hero-background" aria-hidden="true">
+      <div class="hero-grid"></div>
+      <div class="hero-orb orb-one"></div>
+      <div class="hero-orb orb-two"></div>
+    </div>
+    <div class="hero-content">
+      <h1>
+        Create Your Professional Resume
+      </h1>
+      <p>
+        Build, customize, and download your resume in minutes. Make a great first impression with our easy-to-use resume builder.
+      </p>
+      <div class="hero-buttons">
+        <a href="/login" class="btn-primary-landing">Get Started Free</a>
+        <a href="#features" class="btn-secondary-landing">Learn More</a>
+      </div>
+    </div>
+    <div class="hero-image">
+      <i class="fas fa-file-contract"></i>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section class="features-section" id="features">
+    <h2 class="features-title">Why Choose Our Resume Builder?</h2>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon">
+          <i class="fas fa-wand-magic-sparkles"></i>
+        </div>
+        <h3>Easy to Use</h3>
+        <p>
+          Intuitive interface makes creating your resume a breeze. No design experience needed.
+        </p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">
+          <i class="fas fa-palette"></i>
+        </div>
+        <h3>Beautiful Templates</h3>
+        <p>
+          Choose from professionally designed templates that make your resume stand out.
+        </p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">
+          <i class="fas fa-download"></i>
+        </div>
+        <h3>Download Anytime</h3>
+        <p>
+          Export your resume as PDF or different formats for any application.
+        </p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">
+          <i class="fas fa-shield-alt"></i>
+        </div>
+        <h3>Secure & Private</h3>
+        <p>
+          Your data is encrypted and protected. Your privacy is our priority.
+        </p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">
+          <i class="fas fa-sync-alt"></i>
+        </div>
+        <h3>Real-time Sync</h3>
+        <p>
+          Your resume updates instantly across all devices. Work anywhere, anytime.
+        </p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">
+          <i class="fas fa-headset"></i>
+        </div>
+        <h3>24/7 Support</h3>
+        <p>
+          Get help when you need it. Our support team is always ready to assist.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="cta-section">
+    <h2>Ready to Create Your Resume?</h2>
+    <p>
+      Join thousands of job seekers who've created stunning resumes with our builder.
+    </p>
+    <a href="/login" class="btn-cta">Start Now</a>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer-landing">
+    <p>© 2024 Resume Builder. All rights reserved.</p>
+    <div class="social-links-footer">
+      <a href="#" title="Facebook"><i class="fab fa-facebook"></i></a>
+      <a href="#" title="Twitter"><i class="fab fa-twitter"></i></a>
+      <a href="#" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
+      <a href="#" title="GitHub"><i class="fab fa-github"></i></a>
+    </div>
+  </footer>
+
+  <script>
+    // Theme Toggle
+    const themeToggle = document.getElementById('themeToggleNav');
+    const htmlElement = document.documentElement;
+
+    // Check saved theme preference
+    const savedTheme = localStorage.getItem('theme') || 'light';
+    if (savedTheme === 'dark') {
+      htmlElement.classList.add('dark-mode');
+      themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+    }
+
+    themeToggle.addEventListener('click', () => {
+      htmlElement.classList.toggle('dark-mode');
+      const isDarkMode = htmlElement.classList.contains('dark-mode');
+      localStorage.setItem('theme', isDarkMode ? 'dark' : 'light');
+      themeToggle.innerHTML = isDarkMode ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
+    });
+  </script>
+</body>
+</html>

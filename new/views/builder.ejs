@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="en" class="builder-page">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Resume Builder</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <link rel="stylesheet" href="/style.css" />
+</head>
+<body class="builder-page">
+  <nav class="navbar">
+    <div class="nav-brand">
+      <i class="fas fa-file-alt"></i>
+      <h1 data-translate="Resume Builder">Resume Builder</h1>
+    </div>
+    <div class="nav-menu">
+      <button class="btn-outline" id="saveBtn" data-translate="Save your resume" title="Save your resume">
+        <i class="fas fa-save"></i> <span data-translate="Save">Save</span>
+      </button>
+      <button class="btn-gradient" id="previewBtn" data-translate="Preview before export" title="Preview before export">
+        <i class="fas fa-eye"></i> <span data-translate="Preview ">Preview Resume</span>
+      </button>
+      <div class="export-menu-container">
+        <button class="btn-success" id="exportBtn" data-translate="Download your resume" title="Download your resume">
+          <i class="fas fa-download"></i> <span data-translate="Export">Export</span>
+        </button>
+        <div class="export-dropdown" id="exportDropdown">
+          <a href="#" id="exportPdfNav"><i class="fas fa-file-pdf"></i> <span data-translate="Export as PDF">Export as PDF</span></a>
+        </div>
+      </div>
+      <button class="btn-danger" id="resetBtn" data-translate="Clear all data" title="Clear all data">
+        <i class="fas fa-redo"></i> <span data-translate="Reset">Reset</span>
+      </button>
+      <div class="theme-toggle" data-translate="Toggle dark mode" title="Toggle dark mode">
+        <i class="fas fa-moon"></i>
+      </div>
+      <div class="user-menu">
+        <div class="avatar" id="userAvatar" data-translate="Your account" title="Your account">U</div>
+        <div class="dropdown-menu" id="userDropdown">
+          <a href="/dashboard" id="profileLink"><i class="fas fa-user"></i> <span data-translate="Profile">Profile</span></a>
+          <a href="#" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> <span data-translate="Logout">Logout</span></a>
+        </div>
+      </div>
+    </div>
+
+    <div class="mobile-nav-builder">
+      <button class="mobile-menu-toggle-builder" id="mobileMenuToggle" title="Open menu">
+        <i class="fas fa-bars"></i>
+      </button>
+      <div class="mobile-nav-dropdown-builder" id="mobileNavDropdown">
+        <button class="mobile-nav-item-builder" id="mobileFormBtn" type="button">
+          <i class="fas fa-pen-to-square"></i>
+          Resume Form
+        </button>
+        <button class="mobile-nav-item-builder" id="mobileTemplatesBtn" type="button">
+          <i class="fas fa-palette"></i>
+          Templates Section
+        </button>
+        <button class="mobile-nav-item-builder" id="mobilePreviewSectionBtn" type="button">
+          <i class="fas fa-id-card"></i>
+          Preview Section
+        </button>
+        <button class="mobile-nav-item-builder" id="mobileSaveBtn" type="button">
+          <i class="fas fa-save"></i>
+          Save
+        </button>
+        <button class="mobile-nav-item-builder" id="mobileExportPdfBtn" type="button">
+          <i class="fas fa-file-pdf"></i>
+          Export PDF
+        </button>
+        <button class="mobile-nav-item-builder" id="mobileResetBtn" type="button">
+          <i class="fas fa-redo"></i>
+          Reset
+        </button>
+        <button class="mobile-nav-item-builder" id="mobileThemeBtn" type="button">
+          <i class="fas fa-moon"></i>
+          Toggle Theme
+        </button>
+        <a class="mobile-nav-item-builder" href="/dashboard">
+          <i class="fas fa-user"></i>
+          Dashboard
+        </a>
+        <a class="mobile-nav-item-builder mobile-nav-item-builder-danger" href="#" id="mobileLogoutBtn">
+          <i class="fas fa-sign-out-alt"></i>
+          Logout
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="builder-container">
+    <!-- Left Sidebar - Template Selection -->
+    <aside class="template-sidebar" id="templateSidebar">
+      <h2><i class="fas fa-palette"></i> <span data-translate="Templates">Templates</span></h2>
+
+      <button class="btn-gradient full-width wizard-btn" id="openWizardBtn">
+        <i class="fas fa-magic"></i> <span data-translate="Template Wizard">Template Wizard</span>
+      </button>
+
+      <div class="template-categories">
+        <button class="category-btn active" data-category="all">
+          <i class="fas fa-th"></i> All
+        </button>
+        <button class="category-btn" data-category="modern">
+          <i class="fas fa-star"></i> Modern
+        </button>
+        <button class="category-btn" data-category="professional">
+          <i class="fas fa-briefcase"></i> Professional
+        </button>
+      </div>
+
+      <div class="template-list">
+        <div class="template-item active" data-template="seema" data-category="modern">
+          <div class="template-preview">
+            <div class="template-badge modern">Modern</div>
+            <div class="template-img">
+              <div class="template-thumb-card" style="gap:6px;">
+                <div style="display:flex; justify-content:space-between; gap:8px; align-items:flex-start;">
+                  <div style="min-width:0;">
+                    <div style="font-size:12px; font-weight:800; line-height:0.95; letter-spacing:0.04em; color:#111827;">MODERN<br>TEMPLATE</div>
+                    <div style="margin-top:4px; font-size:8px; color:#6b7280;">Clean Creative Layout</div>
+                  </div>
+                  <div style="font-size:6px; line-height:1.45; color:#374151; text-align:right; white-space:nowrap;">
+                    <div>+123-456-7890</div>
+                    <div>hello@reallygreatsite.com</div>
+                    <div>123 Anywhere St.</div>
+                  </div>
+                </div>
+                <div style="padding:5px 0; text-align:center; background:#f3f4f6; font-size:8px; font-weight:800; letter-spacing:0.14em; color:#111827;">SUMMARY</div>
+                <div style="display:grid; grid-template-columns:.9fr 1.1fr; gap:6px;">
+                  <div style="background:#f4f4f4; padding:6px; font-size:7px; color:#374151; min-height:44px;">
+                    <div style="font-size:7px; font-weight:800; margin-bottom:4px;">SKILL</div>
+                    • Wireframing<br>• Prototyping<br>• UI Design
+                  </div>
+                  <div style="background:#fff; border:1px solid #e5e7eb; padding:6px; font-size:7px; color:#374151; min-height:44px;">
+                    <div style="font-size:7px; font-weight:800; margin-bottom:4px;">EXPERIENCE</div>
+                    Wardiere Inc.<br>Ingoude Company
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <span class="template-name">Modern Style</span>
+          <p class="template-desc">Classic split layout</p>
+        </div>
+
+        <div class="template-item" data-template="lorna" data-category="professional">
+          <div class="template-preview">
+            <div class="template-badge professional">Pro</div>
+            <div class="template-img">
+              <div class="template-thumb-card" style="padding:0; overflow:hidden; gap:0;">
+                <div style="background:#bdbdbd; padding:8px; display:flex; gap:8px; align-items:center;">
+                  <div style="min-width:0; flex:1;">
+                    <div style="font-size:11px; font-weight:800; line-height:0.92; letter-spacing:0.03em; color:#111827;">PROFESSIONAL<br>TEMPLATE</div>
+                    <div style="font-size:7px; letter-spacing:0.16em; color:#374151; margin-top:3px;">PROFILE FOCUS LAYOUT</div>
+                  </div>
+                </div>
+                <div style="display:grid; grid-template-columns:.85fr 1.15fr; gap:6px; padding:8px;">
+                  <div style="background:#f4f4f4; padding:6px; font-size:7px; color:#374151; min-height:48px;">
+                    <div style="font-size:7px; font-weight:800; margin-bottom:4px;">PERSONAL PROFILE</div>
+                    Experienced software engineer...
+                  </div>
+                  <div style="background:#fff; border-left:1px solid #d1d5db; padding-left:6px; font-size:7px; color:#374151; min-height:48px;">
+                    <div style="font-size:7px; font-weight:800; margin-bottom:4px;">EDUCATIONAL HISTORY</div>
+                    BS Software Engineering<br>ME Software Development
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <span class="template-name">Professional Style</span>
+          <p class="template-desc">Profile-led two column</p>
+        </div>
+
+        <div class="template-item" data-template="richard" data-category="professional">
+          <div class="template-preview">
+            <div class="template-badge professional">Executive</div>
+            <div class="template-img">
+              <div class="template-thumb-card" style="padding:0; overflow:hidden; gap:0; background:#f8fafc;">
+                <div style="display:grid; grid-template-columns:30% 70%; min-height:100%;">
+                  <div style="background:#153a57; padding:8px 6px; color:#ffffff;">
+                    <div style="width:32px; height:32px; border-radius:50%; margin:0 auto 6px; border:2px solid rgba(255,255,255,0.9);"></div>
+                    <div style="font-size:6px; font-weight:800; letter-spacing:0.08em; margin-bottom:4px;">CONTACT</div>
+                    <div style="height:1px; background:rgba(255,255,255,0.5); margin-bottom:4px;"></div>
+                    <div style="font-size:6px; line-height:1.35; color:#dbeafe;">+123-456-7890<br>mail@domain.com</div>
+                  </div>
+                  <div style="padding:8px 8px 6px;">
+                    <div style="font-size:10px; font-weight:800; line-height:0.95; color:#0f172a;">EXECUTIVE<br>STYLE</div>
+                    <div style="font-size:6px; letter-spacing:0.12em; color:#475569; margin-top:3px;">MARKETING MANAGER</div>
+                    <div style="margin-top:6px; font-size:6px; font-weight:800; color:#0f172a;">PROFILE</div>
+                    <div style="height:1px; background:#94a3b8; margin:3px 0;"></div>
+                    <div style="font-size:6px; color:#475569; line-height:1.35;">Structured profile and experience layout.</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <span class="template-name">Executive Style</span>
+          <p class="template-desc">Dark sidebar with profile-first layout</p>
+        </div>
+      </div>
+
+      <div class="template-info">
+        <i class="fas fa-info-circle"></i>
+        <p>Choose one of the three custom templates</p>
+      </div>
+    </aside>
+
+    <!-- Center - Form Input -->
+    <div class="form-panel" id="formPanel">
+      <!-- Personal Information -->
+<section class="resume-section" id="personalInfo">
+        <h2><i class="fas fa-user"></i> Personal Information</h2>
+        <div class="section-content">
+          <!-- Profile Photo Upload -->
+          <div class="profile-photo-section">
+            <div class="photo-preview" id="photoPreview">
+              <i class="fas fa-user-circle"></i>
+              <img id="profilePhotoImg" style="display: none;" alt="Profile Photo">
+            </div>
+            <div class="photo-upload-controls">
+              <label for="profilePhoto" class="btn-outline upload-btn">
+                <i class="fas fa-camera"></i> Upload Photo
+              </label>
+              <input type="file" id="profilePhoto" accept="image/jpeg,image/png,image/jpg" style="display: none;">
+              <button type="button" class="btn-danger" id="removePhoto" style="display: none;">
+                <i class="fas fa-trash"></i> Remove
+              </button>
+              <small class="photo-info">
+                <i class="fas fa-info-circle"></i> Max 2MB, JPG/PNG only, Square recommended
+              </small>
+            </div>
+          </div>
+          
+          <div class="form-grid">
+            <div class="form-floating">
+              <input type="text" id="fullName" placeholder="" required>
+              <label for="fullName">Full Name</label>
+            </div>
+            <div class="form-floating">
+              <input type="text" id="professionalTitle" placeholder="" autocomplete="organization-title">
+              <label for="professionalTitle">Professional Title</label>
+            </div>
+            <div class="form-floating">
+              <input type="email" id="email" placeholder="" required autocomplete="email">
+              <label for="email">Email</label>
+              <small class="field-error" id="emailError"></small>
+            </div>
+            <div class="form-floating">
+              <input type="tel" id="phone" placeholder="" required autocomplete="tel" inputmode="tel" pattern="^[0-9+()\-\s]{7,20}$">
+              <label for="phone">Phone Number</label>
+              <small class="field-error" id="phoneError"></small>
+            </div>
+            <div class="form-floating">
+              <input type="text" id="location" placeholder="" required>
+              <label for="location">Location</label>
+            </div>
+            <div class="form-floating">
+              <input type="date" id="dateOfBirth" placeholder="" required>
+              <label for="dateOfBirth">Date of Birth</label>
+            </div>
+            <div class="form-floating">
+              <select id="gender" required>
+                <option value="">Select Gender</option>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+                <option value="other">Other</option>
+              </select>
+              <label for="gender">Gender</label>
+            </div>
+            <div class="form-floating">
+              <input type="text" id="religion" placeholder="">
+              <label for="religion">Religion</label>
+            </div>
+            <div class="form-floating">
+              <input type="text" id="hobbies" placeholder="">
+              <label for="hobbies">Hobbies</label>
+            </div>
+            <div class="form-floating full-width">
+              <textarea id="objective" placeholder="" rows="3" required></textarea>
+              <label for="objective">Career Objective</label>
+            </div>
+            <div class="form-floating full-width">
+              <textarea id="currentAddress" placeholder="" rows="2" required></textarea>
+              <label for="currentAddress">Current Address</label>
+            </div>
+            <div class="form-floating full-width">
+              <textarea id="permanentAddress" placeholder="" rows="2"></textarea>
+              <label for="permanentAddress">Permanent Address (Optional)</label>
+            </div>
+          </div>
+          <div class="form-floating full-width">
+            <textarea id="professionalSummary" placeholder="" rows="4"></textarea>
+            <label for="professionalSummary">Professional Summary</label>
+          </div>
+        </div>
+      </section>
+
+
+      <!-- Education -->
+      <div class="form-section">
+        <div class="section-title">
+          <i class="fas fa-graduation-cap"></i>
+          <span data-translate="Education">Education</span>
+        </div>
+        <div id="educationList"></div>
+        <button type="button" class="btn-outline btn-small add-entry" id="addEducation">
+          <i class="fas fa-plus"></i> <span data-translate="Add Education">Add Education</span>
+        </button>
+      </div>
+
+      <!-- Experience -->
+      <div class="form-section">
+        <div class="section-title">
+          <i class="fas fa-briefcase"></i>
+          <span data-translate="Work Experience">Work Experience</span>
+        </div>
+        <div id="experienceList"></div>
+        <button type="button" class="btn-outline btn-small add-entry" id="addExperience">
+          <i class="fas fa-plus"></i> <span data-translate="Add Experience">Add Experience</span>
+        </button>
+      </div>
+
+      <!-- Skills -->
+      <div class="form-section">
+        <div class="section-title">
+          <i class="fas fa-star"></i>
+          <span data-translate="Skills">Skills</span>
+        </div>
+        <div class="form-group">
+          <label for="skillsInput" data-translate="Add Skills">Add Skills (comma-separated)</label>
+          <input type="text" id="skillsInput" placeholder="JavaScript, React, Node.js, MongoDB..." data-preview="skills" />
+        </div>
+      </div>
+
+      <div class="form-section" id="languages">
+        <div class="section-title">
+          <i class="fas fa-language"></i>
+          <span>Languages</span>
+        </div>
+        <div id="languagesList"></div>
+        <button class="btn-outline btn-small add-entry" id="addLanguage">
+          <i class="fas fa-plus"></i> Add Language
+        </button>
+      </div>
+
+      <div class="form-section" id="projects">
+        <div class="section-title">
+          <i class="fas fa-project-diagram"></i>
+          <span>Projects</span>
+        </div>
+        <div id="projectsList"></div>
+        <button class="btn-outline btn-small add-entry" id="addProject">
+          <i class="fas fa-plus"></i> Add Project
+        </button>
+      </div>
+
+      <div class="form-section" id="certifications">
+        <div class="section-title">
+          <i class="fas fa-certificate"></i>
+          <span>Certifications</span>
+        </div>
+        <div id="certificationsList"></div>
+        <button class="btn-outline btn-small add-entry" id="addCertification">
+          <i class="fas fa-plus"></i> Add Certification
+        </button>
+      </div>
+    </div>
+
+
+     <!-- Right Sidebar - Preview -->
+    <aside class="preview-sidebar" id="previewSidebar">
+      <h2>Preview</h2>
+      <div class="preview-container" id="resumePreview">
+        <!-- Dynamic preview will be generated here -->
+      </div>
+    </aside>
+  </div>
+
+  <!-- Templates for dynamic content -->
+  <!-- Templates for dynamic content -->
+  <template id="experienceTemplate">
+    <div class="entry-item">
+      <div class="entry-header">
+        <h3>Experience Entry</h3>
+        <div class="entry-actions">
+          <button class="btn-icon edit-entry"><i class="fas fa-edit"></i></button>
+          <button class="btn-icon delete-entry"><i class="fas fa-trash"></i></button>
+        </div>
+      </div>
+      <div class="form-grid">
+        <div class="form-floating">
+          <input type="text" placeholder="" class="job-title" required>
+          <label>Job Title</label>
+        </div>
+        <div class="form-floating">
+          <input type="text" placeholder="" class="company" required>
+          <label>Company</label>
+        </div>
+        <div class="form-floating">
+          <input type="month" placeholder="" class="start-date" required>
+          <label>Start Date</label>
+        </div>
+        <div class="form-floating">
+          <input type="month" placeholder="" class="end-date">
+          <label>End Date</label>
+        </div>
+      </div>
+      <div class="form-floating full-width">
+        <textarea placeholder="" class="description" rows="3" required></textarea>
+        <label>Description</label>
+      </div>
+    </div>
+  </template>
+
+  <template id="educationTemplate">
+    <div class="entry-item">
+      <div class="entry-header">
+        <h3>Education Entry</h3>
+        <div class="entry-actions">
+          <button class="btn-icon edit-entry"><i class="fas fa-edit"></i></button>
+          <button class="btn-icon delete-entry"><i class="fas fa-trash"></i></button>
+        </div>
+      </div>
+      <div class="form-grid">
+        <div class="form-floating">
+          <input type="text" placeholder="" class="degree" required>
+          <label>Degree</label>
+        </div>
+        <div class="form-floating">
+          <input type="text" placeholder="" class="institution" required>
+          <label>Institution</label>
+        </div>
+        <div class="form-floating">
+          <input type="month" placeholder="" class="start-date" required>
+          <label>Start Date</label>
+        </div>
+        <div class="form-floating">
+          <input type="month" placeholder="" class="end-date">
+          <label>End Date</label>
+        </div>
+      </div>
+      <div class="form-floating">
+        <input type="text" placeholder="" class="field" required>
+        <label>Field of Study</label>
+      </div>
+    </div>
+  </template>
+
+  <template id="skillTemplate">
+    <div class="skill-tag">
+      <span class="skill-text"></span>
+      <button class="remove-skill"><i class="fas fa-times"></i></button>
+    </div>
+  </template>
+
+  <template id="languageTemplate">
+    <div class="entry-item">
+      <div class="entry-header">
+        <h3>Language Entry</h3>
+        <div class="entry-actions">
+          <button class="btn-icon edit-entry"><i class="fas fa-edit"></i></button>
+          <button class="btn-icon delete-entry"><i class="fas fa-trash"></i></button>
+        </div>
+      </div>
+      <div class="form-grid">
+        <div class="form-floating">
+          <input type="text" placeholder="" class="language-name" required>
+          <label>Language</label>
+        </div>
+        <div class="form-floating">
+          <select class="proficiency" required>
+            <option value="">Select Proficiency</option>
+            <option value="Native">Native</option>
+            <option value="Fluent">Fluent</option>
+            <option value="Advanced">Advanced</option>
+            <option value="Intermediate">Intermediate</option>
+            <option value="Basic">Basic</option>
+          </select>
+          <label>Proficiency Level</label>
+        </div>
+      </div>
+    </div>
+  </template>
+
+  <template id="projectTemplate">
+    <div class="entry-item">
+      <div class="entry-header">
+        <h3>Project Entry</h3>
+        <div class="entry-actions">
+          <button class="btn-icon edit-entry"><i class="fas fa-edit"></i></button>
+          <button class="btn-icon delete-entry"><i class="fas fa-trash"></i></button>
+        </div>
+      </div>
+      <div class="form-grid">
+        <div class="form-floating">
+          <input type="text" placeholder="" class="project-title" required>
+          <label>Project Title</label>
+        </div>
+        <div class="form-floating">
+          <input type="text" placeholder="" class="project-url">
+          <label>Project URL</label>
+        </div>
+      </div>
+      <div class="form-floating full-width">
+        <textarea placeholder="" class="project-description" rows="3" required></textarea>
+        <label>Description</label>
+      </div>
+    </div>
+  </template>
+
+  <template id="certificationTemplate">
+    <div class="entry-item">
+      <div class="entry-header">
+        <h3>Certification Entry</h3>
+        <div class="entry-actions">
+          <button class="btn-icon edit-entry"><i class="fas fa-edit"></i></button>
+          <button class="btn-icon delete-entry"><i class="fas fa-trash"></i></button>
+        </div>
+      </div>
+      <div class="form-grid">
+        <div class="form-floating">
+          <input type="text" placeholder="" class="cert-name" required>
+          <label>Certification Name</label>
+        </div>
+        <div class="form-floating">
+          <input type="text" placeholder="" class="issuer" required>
+          <label>Issuing Organization</label>
+        </div>
+        <div class="form-floating">
+          <input type="month" placeholder="" class="issue-date" required>
+          <label>Issue Date</label>
+        </div>
+        <div class="form-floating">
+          <input type="month" placeholder="" class="expiry-date">
+          <label>Expiry Date (Optional)</label>
+        </div>
+      </div>
+      <div class="form-floating">
+        <input type="text" placeholder="" class="credential-id">
+        <label>Credential ID (Optional)</label>
+      </div>
+    </div>
+  </template>
+
+
+  <!-- Preview Modal -->
+ <div id="previewModal" class="modal">
+    <div class="modal-content preview-modal-content">
+      <div class="modal-header">
+        <h2><i class="fas fa-file-alt"></i> <span data-translate="Resume Preview">Resume Preview</span></h2>
+        <div class="modal-header-actions">
+          <button class="btn-outline btn-small" id="editResumeBtn">
+            <i class="fas fa-edit"></i> Edit
+          </button>
+          <button class="btn-success btn-small" id="exportBtnModal">
+            <i class="fas fa-download"></i> <span data-translate="Export">Export</span>
+          </button>
+          <button class="close-modal" id="closePreviewModal">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+      </div>
+      <div class="modal-body preview-body">
+        <div id="fullResumePreview" class="full-resume-preview"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Template Wizard Modal -->
+ <!-- Template Wizard Modal -->
+  <div id="templateWizardModal" class="modal">
+    <div class="modal-content wizard-modal-content">
+      <div class="modal-header">
+        <h2><i class="fas fa-magic"></i> <span data-translate="Template Selection">Template Selection</span></h2>
+        <button class="close-modal" id="closeWizardModal">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+      <div class="modal-body wizard-body">
+        <!-- Step 1: Choose Style -->
+        <div class="wizard-step active" id="wizardStep1">
+          <h3 data-translate="Choose Your Style">Choose Your Style</h3>
+          <div class="style-grid">
+            <button class="style-card" data-style="modern">
+              <i class="fas fa-star"></i>
+              <span data-translate="Modern">Modern</span>
+              <small>Contemporary designs</small>
+            </button>
+            <button class="style-card" data-style="professional">
+              <i class="fas fa-briefcase"></i>
+              <span data-translate="Professional">Professional</span>
+              <small>Business & Corporate</small>
+            </button>
+            <button class="style-card" data-style="creative">
+              <i class="fas fa-palette"></i>
+              <span data-translate="Creative">Creative</span>
+              <small>Unique & Bold</small>
+            </button>
+            <button class="style-card" data-style="minimal">
+              <i class="fas fa-minus-circle"></i>
+              <span data-translate="Minimal">Minimal</span>
+              <small>Clean & Simple</small>
+            </button>
+          </div>
+        </div>
+
+        <!-- Step 2: Choose Color -->
+        <div class="wizard-step" id="wizardStep2">
+          <h3 data-translate="Select Color Theme">Select Color Theme</h3>
+          <div class="color-grid">
+            <button class="color-card" data-color="blue">
+              <div class="color-preview" style="background: linear-gradient(135deg, #6366f1, #8b5cf6);"></div>
+              <span>Blue Purple</span>
+            </button>
+            <button class="color-card" data-color="green">
+              <div class="color-preview" style="background: linear-gradient(135deg, #10b981, #059669);"></div>
+              <span>Emerald Green</span>
+            </button>
+            <button class="color-card" data-color="orange">
+              <div class="color-preview" style="background: linear-gradient(135deg, #f59e0b, #d97706);"></div>
+              <span>Amber Orange</span>
+            </button>
+            <button class="color-card" data-color="red">
+              <div class="color-preview" style="background: linear-gradient(135deg, #ef4444, #dc2626);"></div>
+              <span>Ruby Red</span>
+            </button>
+            <button class="color-card" data-color="teal">
+              <div class="color-preview" style="background: linear-gradient(135deg, #14b8a6, #0d9488);"></div>
+              <span>Teal Cyan</span>
+            </button>
+            <button class="color-card" data-color="purple">
+              <div class="color-preview" style="background: linear-gradient(135deg, #a855f7, #9333ea);"></div>
+              <span>Royal Purple</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Step 3: Creation Method -->
+        <div class="wizard-step" id="wizardStep3">
+          <h3 data-translate="Creation Method">Creation Method</h3>
+          <div class="method-grid">
+            <button class="method-card" data-method="new">
+              <i class="fas fa-file"></i>
+              <span data-translate="Create New Resume">Create New Resume</span>
+              <small data-translate="Start from scratch">Start from scratch</small>
+            </button>
+            <button class="method-card" data-method="ai">
+              <i class="fas fa-robot"></i>
+              <span data-translate="AI Assistance">AI Assistance</span>
+              <small data-translate="Let AI help you">Let AI help you</small>
+            </button>
+            <button class="method-card" data-method="linkedin">
+              <i class="fab fa-linkedin"></i>
+              <span data-translate="Import from LinkedIn">Import from LinkedIn</span>
+              <small data-translate="Use LinkedIn profile">Use LinkedIn profile</small>
+            </button>
+            <button class="method-card" data-method="edit">
+              <i class="fas fa-edit"></i>
+              <span data-translate="Edit Existing Resume">Edit Existing Resume</span>
+              <small data-translate="Continue with saved resume">Continue with saved resume</small>
+            </button>
+          </div>
+        </div>
+        <div class="wizard-navigation">
+          <button class="btn-outline" id="wizardPrev" style="display: none;">
+            <i class="fas fa-arrow-left"></i> Back
+          </button>
+          <button class="btn-gradient" id="wizardNext">
+            Next <i class="fas fa-arrow-right"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Logout Confirmation Modal -->
+  <div id="logoutModal" class="modal">
+    <div class="modal-content logout-modal-content">
+      <div class="modal-header">
+        <h2><i class="fas fa-right-from-bracket"></i> <span data-translate="Logout">Logout</span></h2>
+        <button class="close-modal" id="closeLogoutModal" type="button" aria-label="Close logout dialog">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+      <div class="modal-body logout-modal-body">
+        <p>Are you sure you want to log out?</p>
+        <div class="logout-modal-actions">
+          <button class="btn-outline" id="cancelLogoutBtn" type="button">Cancel</button>
+          <button class="btn-danger" id="confirmLogoutBtn" type="button">Logout</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Reset Confirmation Modal -->
+  <div id="resetModal" class="modal">
+    <div class="modal-content confirm-modal-content">
+      <div class="modal-header">
+        <h2><i class="fas fa-rotate-left"></i> <span data-translate="Reset">Reset</span></h2>
+        <button class="close-modal" id="closeResetModal" type="button" aria-label="Close reset dialog">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+      <div class="modal-body confirm-modal-body">
+        <p>Clear all resume data?</p>
+        <div class="confirm-modal-actions">
+          <button class="btn-outline" id="cancelResetBtn" type="button">Cancel</button>
+          <button class="btn-danger" id="confirmResetBtn" type="button">Reset</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pizzip/3.1.4/pizzip.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+  <script src="/toast.js"></script>
+  <script src="/builder.js"></script>
+</body>
+</html>
