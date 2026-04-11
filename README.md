@@ -136,19 +136,19 @@ new/docs/screenshots/
 
 ### Landing Page
 
-![Login Page](docs/screenshots/landing-page.png)
+![Login Page](new/docs/screenshots/landing-page.png)
 
 ### Dashboard
 
-![Dashboard](docs/screenshots/dashboard-page.png)
+![Dashboard](new/docs/screenshots/dashboard-page.png)
 
 ### Builder
 
-![Builder](docs/screenshots/builder-page.png)
+![Builder](new/docs/screenshots/builder-page.png)
 
 ### Templates Gallary
 
-![Templates](docs/screenshots/templates.png)
+![Templates](new/docs/screenshots/templates.png)
 
 ## Notes
 
