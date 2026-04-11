@@ -122,6 +122,34 @@ Open: `http://localhost:3000`
 - `DELETE /api/resumes/:id`
 - `POST /api/resumes/:id/download`
 
+## Screenshots
+
+Add your screenshots to `new/docs/screenshots/` and keep the file names below.
+
+```text
+new/docs/screenshots/
+  login-page.png
+  dashboard-page.png
+  builder-page.png
+  otp-reset-flow.png
+```
+
+### Landing Page
+
+![Login Page](docs/screenshots/landing-page.png)
+
+### Dashboard
+
+![Dashboard](docs/screenshots/dashboard-page.png)
+
+### Builder
+
+![Builder](docs/screenshots/builder-page.png)
+
+### Templates Gallary
+
+![Templates](docs/screenshots/templates.png)
+
 ## Notes
 
 - OTP expires in 10 minutes.
