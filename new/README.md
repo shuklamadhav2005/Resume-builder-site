@@ -101,6 +101,7 @@ npm install
 Create a `.env` file in the project root and set the values below.
 
 ```env
+ADMIN_EMAIL=admin1@gmail.com
 PORT=3000
 APP_URL=http://localhost:3000
 
@@ -109,7 +110,7 @@ JWT_SECRET=replace-with-a-strong-secret
 
 EMAIL_SERVICE=gmail
 EMAIL_USER=your-email@gmail.com
-EMAIL_PASS=your-app-password
+EMAIL_PASS=your-google-app-password
 EMAIL_FROM_NAME=Resume Site
 
 EMAIL_HOST=smtp.gmail.com
@@ -137,6 +138,69 @@ npm start
 This starts the app through `src/server.js`. The development script in `package.json` also runs `src/server.js`.
 
 Open http://localhost:3000 after the server starts.
+
+## Deployment
+
+### Before You Deploy
+
+1. Make sure `.env` is not committed to git.
+2. Create a MongoDB Atlas database or use another hosted MongoDB instance.
+3. Generate a strong `JWT_SECRET`.
+4. Prepare your email credentials, preferably a Gmail App Password.
+5. Push the project to GitHub.
+
+### Vercel Deployment
+
+This project deploys on Vercel as a Node.js app.
+
+1. Import the GitHub repository into Vercel.
+2. When Vercel asks for the root directory, set it to the folder that contains `package.json`.
+3. In this workspace, the project root is the current folder `new`, so the root directory should be the repository root, not a nested subfolder.
+4. If Vercel leaves the root directory blank, that is also fine as long as it points to the same project root.
+5. Set the framework preset to Node.js.
+6. Add these environment variables in Vercel project settings:
+
+```env
+ADMIN_EMAIL=admin1@gmail.com
+PORT=3000
+APP_URL=https://your-vercel-domain.vercel.app
+MONGODB_URI=mongodb+srv://user:password@cluster.mongodb.net/resumesite
+JWT_SECRET=your-long-random-secret
+EMAIL_SERVICE=gmail
+EMAIL_USER=your-email@gmail.com
+EMAIL_PASS=your-google-app-password
+EMAIL_FROM_NAME=Resume Site
+EMAIL_HOST=smtp.gmail.com
+EMAIL_PORT=587
+EMAIL_SECURE=false
+```
+
+7. Deploy the project.
+8. Test the public URL.
+
+Important note for Vercel: if you see a not found or root directory error, it usually means the project root was not selected correctly. Pick the directory that contains `package.json`, `src/`, `public/`, and `views/`.
+
+### Render Deployment
+
+Render is often simpler for this app because it runs the app as a normal Node server.
+
+1. Create a new Web Service in Render.
+2. Connect the same GitHub repository.
+3. Set the build command to `npm install`.
+4. Set the start command to `npm start` or `node src/server.js`.
+5. Add the same production environment variables from the Vercel section.
+6. Deploy the service.
+7. Open the Render URL and verify the site loads.
+
+### Production Checklist
+
+- The homepage loads.
+- `/login` works.
+- `/dashboard` works after login.
+- `/admin` opens for admin users.
+- MongoDB writes and reads work.
+- Email sending works with the configured SMTP account.
+- Static files in `public/` load correctly.
 
 ## Pages
 
