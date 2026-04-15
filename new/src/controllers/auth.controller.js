@@ -1,7 +1,7 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const User = require('../models/user.model');
-const { JWT_SECRET } = require('../config/env');
+const { JWT_SECRET, ADMIN_EMAILS } = require('../config/env');
 const { normalizeEmail, generateOtp, hashOtp } = require('../services/auth.service');
 const { sendWelcomeEmail, sendOtpEmail } = require('../services/email.service');
 
@@ -20,7 +20,8 @@ async function register(req, res) {
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
-    const user = new User({ name, email: normalizedEmail, password: hashedPassword });
+    const role = ADMIN_EMAILS.includes(normalizedEmail) ? 'admin' : 'user';
+    const user = new User({ name, email: normalizedEmail, password: hashedPassword, role });
     await user.save();
 
     let mailWarning = null;
@@ -61,13 +62,28 @@ async function login(req, res) {
       return res.status(401).json({ message: 'Invalid credentials' });
     }
 
+    if (ADMIN_EMAILS.includes(normalizedEmail) && user.role !== 'admin') {
+      user.role = 'admin';
+      user.updatedAt = new Date();
+      await user.save();
+    }
+
     const token = jwt.sign(
-      { id: user._id, email: user.email },
+      { id: user._id, email: user.email, role: user.role },
       JWT_SECRET,
       { expiresIn: '7d' }
     );
 
-    return res.json({ token, message: 'Login successful' });
+    return res.json({
+      token,
+      message: 'Login successful',
+      role: user.role,
+      user: {
+        name: user.name,
+        email: user.email,
+        role: user.role
+      }
+    });
   } catch (error) {
     return res.status(500).json({ message: 'Login failed', error: error.message });
   }
@@ -75,12 +91,12 @@ async function login(req, res) {
 
 async function me(req, res) {
   try {
-    const user = await User.findById(req.user.id).select('name email createdAt');
+    const user = await User.findById(req.user.id).select('name email role createdAt');
     if (!user) {
       return res.status(404).json({ message: 'User not found' });
     }
 
-    return res.json({ name: user.name, email: user.email, createdAt: user.createdAt });
+    return res.json({ name: user.name, email: user.email, role: user.role, createdAt: user.createdAt });
   } catch (error) {
     return res.status(500).json({ message: 'Failed to fetch user profile', error: error.message });
   }

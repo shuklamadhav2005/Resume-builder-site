@@ -17,6 +17,10 @@ const EMAIL_PASS_RAW = process.env.EMAIL_PASS || process.env.SMTP_PASS || '';
 const EMAIL_PASS = EMAIL_SERVICE.toLowerCase() === 'gmail' ? EMAIL_PASS_RAW.replace(/\s+/g, '') : EMAIL_PASS_RAW;
 const EMAIL_FROM_NAME = process.env.EMAIL_FROM_NAME || 'Resume Site';
 const MAIL_FROM = process.env.MAIL_FROM || `${EMAIL_FROM_NAME} <${EMAIL_USER || 'no-reply@resumesite.local'}>`;
+const ADMIN_EMAILS = String(process.env.ADMIN_EMAILS || process.env.ADMIN_EMAIL || '')
+  .split(',')
+  .map((email) => email.trim().toLowerCase())
+  .filter(Boolean);
 
 module.exports = {
   PORT,
@@ -29,5 +33,6 @@ module.exports = {
   EMAIL_SECURE,
   EMAIL_USER,
   EMAIL_PASS,
-  MAIL_FROM
+  MAIL_FROM,
+  ADMIN_EMAILS
 };

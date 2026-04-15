@@ -190,7 +190,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         localStorage.setItem('token', data.token);
         flashToast('Successfully logged in.', 'success');
-        window.location.href = '/dashboard';
+        window.location.href = data.role === 'admin' ? '/admin' : '/dashboard';
       } catch (error) {
         showToast('Connection error. Please try again.', 'error');
       }
@@ -268,7 +268,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         localStorage.setItem('token', loginData.token);
         flashToast('Successfully logged in.', 'success');
-        window.location.href = '/dashboard';
+        window.location.href = loginData.role === 'admin' ? '/admin' : '/dashboard';
       } catch (error) {
         showToast('Connection error. Please try again.', 'error');
       }

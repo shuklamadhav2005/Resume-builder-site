@@ -8,7 +8,8 @@ Resume Builder is a Node.js and Express web app for creating, managing, and down
 - Account welcome email after successful signup
 - Forgot-password flow with OTP email verification
 - Resume create, read, update, delete, and download counter APIs
-- EJS-rendered pages for landing, login, templates, builder, and dashboard
+- Admin panel for managing users, roles, and resume records
+- EJS-rendered pages for landing, login, templates, builder, dashboard, and admin
 - Modular Express structure with controllers, services, middleware, and models
 
 ## Tech Stack
@@ -35,6 +36,7 @@ new/
       style.css
     js/
       builder.js
+      admin.js
       dashboard.js
       login.js
       toast.js
@@ -45,6 +47,7 @@ new/
       db.js
       env.js
     controllers/
+      admin.controller.js
       auth.controller.js
       page.controller.js
       resume.controller.js
@@ -57,6 +60,7 @@ new/
       user.model.js
     routes/
       api.routes.js
+      admin.routes.js
       page.routes.js
     services/
       auth.service.js
@@ -71,6 +75,7 @@ new/
     errors/
     layouts/
     pages/
+      admin.ejs
       builder.ejs
       dashboard.ejs
       landing.ejs
@@ -117,6 +122,7 @@ The app also accepts these legacy aliases if you already use them:
 - `SECRET` for `JWT_SECRET`
 - `MONGODB_URL` for `MONGODB_URI`
 - `SMTP_HOST`, `SMTP_PORT`, `SMTP_SECURE`, `SMTP_USER`, and `SMTP_PASS` for email settings
+- `ADMIN_EMAIL` or `ADMIN_EMAILS` to bootstrap one or more admin accounts at registration time
 
 ### Gmail Setup
 
@@ -128,7 +134,7 @@ If you use Gmail, create a Google App Password and place it in `EMAIL_PASS`. Do 
 npm start
 ```
 
-This starts the app through `src/server.js`. The development script in `package.json` runs `index.js`.
+This starts the app through `src/server.js`. The development script in `package.json` also runs `src/server.js`.
 
 Open http://localhost:3000 after the server starts.
 
@@ -139,6 +145,7 @@ Open http://localhost:3000 after the server starts.
 - `GET /templates` resume templates page
 - `GET /builder` resume builder page
 - `GET /dashboard` user dashboard
+- `GET /admin` admin control panel
 - `GET /logout` clears the local token and redirects
 
 ## API Routes
@@ -166,6 +173,15 @@ Open http://localhost:3000 after the server starts.
 - `DELETE /api/resumes/:id`
 - `POST /api/resumes/:id/download`
 
+### Admin
+
+- `GET /api/admin/summary`
+- `GET /api/admin/users`
+- `PATCH /api/admin/users/:id/role`
+- `DELETE /api/admin/users/:id`
+- `GET /api/admin/resumes`
+- `DELETE /api/admin/resumes/:id`
+
 ## Screenshots
 
 Place screenshots in `docs/screenshots/` if you want to document the UI.
@@ -176,6 +192,7 @@ Suggested filenames:
 - `login-page.png`
 - `dashboard-page.png`
 - `builder-page.png`
+- `admin-page.png`
 - `templates-page.png`
 - `otp-reset-flow.png`
 

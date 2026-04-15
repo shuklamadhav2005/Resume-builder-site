@@ -5,6 +5,7 @@ const {
   renderTemplates,
   renderBuilder,
   renderDashboard,
+  renderAdminDashboard,
   logout
 } = require('../controllers/page.controller');
 
@@ -15,6 +16,8 @@ router.get('/login', renderLogin);
 router.get('/templates', renderTemplates);
 router.get('/builder', renderBuilder);
 router.get('/dashboard', renderDashboard);
+router.get('/admin', renderAdminDashboard);
+router.get('/admin/dashboard', renderAdminDashboard);
 router.get('/logout', logout);
 
 module.exports = router;

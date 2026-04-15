@@ -11,6 +11,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const accountAvatar = document.getElementById('accountAvatar');
   const userAvatar = document.getElementById('userAvatar');
   const userDropdown = document.getElementById('userDropdown');
+  const adminPanelBtn = document.getElementById('adminPanelBtn');
+  const mobileAdminPanelBtn = document.getElementById('mobileAdminPanelBtn');
   const themeToggle = document.getElementById('themeToggle');
   const mobileMenuToggle = document.getElementById('mobileMenuToggle');
   const mobileNavDropdown = document.getElementById('mobileNavDropdown');
@@ -171,18 +173,35 @@ document.addEventListener('DOMContentLoaded', () => {
       console.log('Fetched user data:', data);
       const name = data.name || 'User';
       const email = data.email || 'user@example.com';
+      const role = data.role || 'user';
 
       accountName.textContent = name;
       accountEmail.textContent = email;
       const initial = name.trim()[0] || 'U';
       accountAvatar.textContent = initial.toUpperCase();
       userAvatar.textContent = initial.toUpperCase();
+
+      if (adminPanelBtn) {
+        adminPanelBtn.style.display = role === 'admin' ? 'inline-flex' : 'none';
+      }
+
+      if (mobileAdminPanelBtn) {
+        mobileAdminPanelBtn.style.display = role === 'admin' ? 'inline-flex' : 'none';
+      }
     } catch (error) {
       console.error('Error updating account info:', error);
       accountName.textContent = 'User';
       accountEmail.textContent = 'user@example.com';
       accountAvatar.textContent = 'U';
       userAvatar.textContent = 'U';
+
+      if (adminPanelBtn) {
+        adminPanelBtn.style.display = 'none';
+      }
+
+      if (mobileAdminPanelBtn) {
+        mobileAdminPanelBtn.style.display = 'none';
+      }
     }
   }
 
@@ -192,10 +211,10 @@ document.addEventListener('DOMContentLoaded', () => {
       navigator.clipboard.writeText(shareUrl).then(() => {
         showToast('Share link copied to clipboard.', 'success');
       }).catch(() => {
-        prompt('Copy this share link:', shareUrl);
+        showToast(`Copy this link manually: ${shareUrl}`, 'error', 5000);
       });
     } else {
-      prompt('Copy this share link:', shareUrl);
+      showToast(`Copy this link manually: ${shareUrl}`, 'error', 5000);
     }
   }
 
@@ -210,12 +229,10 @@ document.addEventListener('DOMContentLoaded', () => {
       const resumeId = button.getAttribute('data-id');
 
       if (action === 'delete') {
-        if (!confirm('Delete this resume?')) {
-          return;
-        }
-        
+        showToast('Deleting resume...', 'success');
         const success = await deleteResume(resumeId);
         if (success) {
+          showToast('Resume deleted successfully.', 'success');
           const resumes = await loadResumes();
           renderResumes(resumes);
         } else {

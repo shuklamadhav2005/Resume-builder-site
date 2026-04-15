@@ -18,6 +18,10 @@ function renderDashboard(req, res) {
   return res.render('pages/dashboard');
 }
 
+function renderAdminDashboard(req, res) {
+  return res.render('pages/admin');
+}
+
 function logout(req, res) {
   return res.send(`<!DOCTYPE html>
 <html lang="en">
@@ -50,5 +54,6 @@ module.exports = {
   renderTemplates,
   renderBuilder,
   renderDashboard,
+  renderAdminDashboard,
   logout
 };
