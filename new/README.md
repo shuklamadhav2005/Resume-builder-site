@@ -1,25 +1,25 @@
 # Resume Builder
 
-A full-stack resume builder web app with authentication, dashboard, resume CRUD, and email-based password reset using OTP.
+Resume Builder is a Node.js and Express web app for creating, managing, and downloading resumes. It includes user authentication, profile management, OTP-based password reset, and a dashboard-driven resume workflow.
 
 ## Features
 
-- User registration and login (JWT auth)
-- Welcome email on account creation
-- Forgot password with OTP email verification
-- Password reset after OTP verification
-- Resume CRUD APIs (create, update, delete, list, fetch by id)
-- Download counter for resumes
-- EJS-based frontend views
+- User registration, login, and JWT-based session handling
+- Account welcome email after successful signup
+- Forgot-password flow with OTP email verification
+- Resume create, read, update, delete, and download counter APIs
+- EJS-rendered pages for landing, login, templates, builder, and dashboard
+- Modular Express structure with controllers, services, middleware, and models
 
 ## Tech Stack
 
-- Node.js + Express
-- MongoDB + Mongoose
+- Node.js
+- Express 5
+- MongoDB with Mongoose
 - EJS templates
-- JWT (`jsonwebtoken`)
-- Password hashing (`bcryptjs`)
-- Email sending (`nodemailer`)
+- JSON Web Tokens
+- bcryptjs for password hashing
+- nodemailer for email delivery
 
 ## Project Structure
 
@@ -27,28 +27,65 @@ A full-stack resume builder web app with authentication, dashboard, resume CRUD,
 new/
   index.js
   package.json
-  .env
+  README.md
+  docs/
+    screenshots/
   public/
-    builder.js
-    dashboard.js
-    login.js
-    style.css
-    toast.js
+    css/
+      style.css
+    js/
+      builder.js
+      dashboard.js
+      login.js
+      toast.js
+  src/
+    app.js
+    server.js
+    config/
+      db.js
+      env.js
+    controllers/
+      auth.controller.js
+      page.controller.js
+      resume.controller.js
+      user.controller.js
+    middlewares/
+      auth.middleware.js
+      error.middleware.js
+    models/
+      resume.model.js
+      user.model.js
+    routes/
+      api.routes.js
+      page.routes.js
+    services/
+      auth.service.js
+      email.service.js
+    utils/
   views/
     builder.ejs
     dashboard.ejs
     landing.ejs
     login.ejs
     templates.ejs
+    errors/
+    layouts/
+    pages/
+      builder.ejs
+      dashboard.ejs
+      landing.ejs
+      login.ejs
+      templates.ejs
+    partials/
 ```
 
-## Prerequisites
+## Requirements
 
-- Node.js 18+
-- MongoDB running locally or remote connection
-- Gmail App Password (or SMTP credentials) for email delivery
+- Node.js 18 or newer
+- MongoDB local instance or remote connection
+- SMTP credentials or Gmail App Password for email sending
 
-## Installation
+## Install
 
 ```bash
 npm install
@@ -56,50 +93,57 @@ npm install
 
 ## Environment Variables
 
-Create a `.env` file in the project root (`new/.env`) and set:
+Create a `.env` file in the project root and set the values below.
 
 ```env
-MONGODB_URL=mongodb://127.0.0.1:27017/resumesite
-SECRET=replace-with-strong-secret
 PORT=3000
 APP_URL=http://localhost:3000
 
+MONGODB_URI=mongodb://127.0.0.1:27017/resumesite
+JWT_SECRET=replace-with-a-strong-secret
+
 EMAIL_SERVICE=gmail
 EMAIL_USER=your-email@gmail.com
-EMAIL_PASS=your-16-char-app-password
-EMAIL_FROM_NAME="Resume Site"
+EMAIL_PASS=your-app-password
+EMAIL_FROM_NAME=Resume Site
 
 EMAIL_HOST=smtp.gmail.com
 EMAIL_PORT=587
 EMAIL_SECURE=false
 ```
 
-### Gmail setup
+The app also accepts these legacy aliases if you already use them:
 
-Use **Google App Password** (not your normal Gmail password):
+- `SECRET` for `JWT_SECRET`
+- `MONGODB_URL` for `MONGODB_URI`
+- `SMTP_HOST`, `SMTP_PORT`, `SMTP_SECURE`, `SMTP_USER`, and `SMTP_PASS` for email settings
 
-1. Enable 2-Step Verification in your Google account
-2. Create an App Password for Mail
-3. Put that value in `EMAIL_PASS`
+### Gmail Setup
 
-## Run the App
+If you use Gmail, create a Google App Password and place it in `EMAIL_PASS`. Do not use your normal account password.
+
+## Run
 
 ```bash
-node index.js
+npm start
 ```
 
-Open: `http://localhost:3000`
+This starts the app through `src/server.js`. The development script in `package.json` runs `index.js`.
 
-## Main Routes (Pages)
+Open http://localhost:3000 after the server starts.
 
-- `GET /` -> landing page
-- `GET /login` -> login/signup/reset UI
-- `GET /templates` -> templates page
-- `GET /builder` -> builder page
-- `GET /dashboard` -> dashboard page
-- `GET /logout` -> clears local token and redirects
+## Pages
 
-## Auth & User APIs
+- `GET /` landing page
+- `GET /login` login, signup, and reset UI
+- `GET /templates` resume templates page
+- `GET /builder` resume builder page
+- `GET /dashboard` user dashboard
+- `GET /logout` clears the local token and redirects
+
+## API Routes
+
+### Auth and User
 
 - `POST /api/register`
 - `POST /api/login`
@@ -107,13 +151,13 @@ Open: `http://localhost:3000`
 - `PUT /api/users`
 - `DELETE /api/users`
 
-## Password Reset APIs
+### Password Reset
 
-- `POST /api/forgot-password` -> sends OTP email
-- `POST /api/verify-otp` -> verifies OTP
-- `POST /api/reset-password` -> sets new password
+- `POST /api/forgot-password`
+- `POST /api/verify-otp`
+- `POST /api/reset-password`
 
-## Resume APIs
+### Resumes
 
 - `GET /api/resumes`
 - `POST /api/resumes`
@@ -124,37 +168,22 @@ Open: `http://localhost:3000`
 
 ## Screenshots
 
-Add your screenshots to `new/docs/screenshots/` and keep the file names below.
+Place screenshots in `docs/screenshots/` if you want to document the UI.
 
-```text
-new/docs/screenshots/
-  login-page.png
-  dashboard-page.png
-  builder-page.png
-  otp-reset-flow.png
-```
+Suggested filenames:
 
-### Landing Page
-
-![Login Page](docs/screenshots/landing-page.png)
-
-### Dashboard
-
-![Dashboard](docs/screenshots/dashboard-page.png)
-
-### Builder
-
-![Builder](docs/screenshots/builder-page.png)
-
-### Templates Gallary
-
-![Templates](docs/screenshots/templates.png)
+- `landing-page.png`
+- `login-page.png`
+- `dashboard-page.png`
+- `builder-page.png`
+- `templates-page.png`
+- `otp-reset-flow.png`
 
 ## Notes
 
-- OTP expires in 10 minutes.
+- OTPs expire after 10 minutes.
 - OTP resend has a 60-second cooldown.
-- Do not commit `.env` with real credentials.
+- Keep `.env` out of version control.
 
 ## License
 
